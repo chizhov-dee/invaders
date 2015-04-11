@@ -1,17 +1,26 @@
-class window.Game
+class Game
   constructor: ->
-    console.log 'Game contructor'
+    @.bindEvents()
 
-  init: ->
-    console.log "init"
+  bindEvents: ->
+    document.addEventListener('deviceready', @.onDeviceReady, false)
 
-  preload: ->
-    console.log 'preload'
+  onDeviceReady: =>
+    @.receivedEvent('deviceready')
 
-  create: ->
-    console.log 'create'
-  
+    @.run()
 
-  update: ->  
-    console.log 'update'
+  run: ->
+    @phaserGame = new Phaser.Game(640, 480, Phaser.CANVAS, 'game')
+
+    @phaserGame.state.add('Main_Scene', Scenes.Main, true)
+
+
+  receivedEvent: (id)->
+    console.log('Received Event: ' + id)
+
+
+new Game()
+
+
     

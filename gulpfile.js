@@ -3,11 +3,17 @@ var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
+var order = require("gulp-order");
 
 var paths = {
   scripts: {
-    js: ['www/vendors/js/**/*.js', 'www/build/js/**/*.js'],
-    coffee: ["www/js/**/*.coffee"]
+    coffee: ["www/js/**/*.coffee"],
+    js: [
+      'www/vendors/js/phaser.js', 
+      "www/build/js/config.js",
+      "www/build/js/scenes/main.js", 
+      "www/build/js/game.js"
+    ]
   }
 };
 
@@ -17,7 +23,7 @@ gulp.task('default', function() {
 
 gulp.task('process-coffee', function() {
   return gulp.src(paths.scripts.coffee)
-    .pipe(coffee({ bare: false })).on('error', gutil.log)
+    .pipe(coffee({ bare: true })).on('error', gutil.log)
     .pipe(gulp.dest('www/build/js'));
 });
 
@@ -29,4 +35,9 @@ gulp.task('scripts', ['process-coffee'], function() {
     .pipe(gulp.dest('www/js'));
 });
 
-gulp.task('default', ['scripts']);
+// Rerun the task when a file changes
+gulp.task('watch', function() {
+  gulp.watch(paths.scripts.coffee, ['scripts']);
+});
+
+gulp.task('default', ['watch', 'scripts']);
