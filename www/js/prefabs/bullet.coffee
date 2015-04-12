@@ -1,6 +1,8 @@
-class Prefabs.Bullet extends Phaser.Sprite
+class Prefab.Bullet extends Phaser.Sprite
   constructor: (game, key)->
     super(game, 0, 0, key)
+
+    @id = Math.round(Math.random(10000000) * 10000000)
 
     @texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST
 
@@ -10,26 +12,17 @@ class Prefabs.Bullet extends Phaser.Sprite
     @outOfBoundsKill = true
     @exists = false
 
-    @tracking = false
-    @scaleSpeed = 0
+    @events.onKilled.add(@.onKilled, @)
 
-  fire: (x, y, angle, speed, gx, gy)->  
-    gx = gx || 0;
-    gy = gy || 0;
+  fire: (x, y, angle, speed)->  
+    console.log 'fire bullet'
 
     @reset(x, y)
     @scale.set(1)
 
-    @game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity)
+    @game.physics.arcade.velocityFromAngle(angle, speed, @body.velocity)
 
     @angle = angle
 
-    @body.gravity.set(gx, gy) # под сомнением
-
-  update: ->
-    if @tracking
-      @rotation = Math.atan2(@body.velocity.y, @body.velocity.x) # под сомнением
-
-    if @scaleSpeed > 0
-      @scale.x += @scaleSpeed
-      @scale.y += @scaleSpeed
+  onKilled: (e)->
+    console.log "killed #{@id} button"

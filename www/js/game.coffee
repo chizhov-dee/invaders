@@ -13,14 +13,14 @@ class Game
   run: ->
     @phaserGame = new Phaser.Game(640, 480, Phaser.CANVAS, 'game')
 
-    @phaserGame.state.add('Main_Scene', Scenes.Main, true)
+    @phaserGame.state.add('Main_Scene', Scene.Main, true)
 
 
   receivedEvent: (id)->
     console.log('Received Event: ' + id)
 
 
-new Game()
+window.invader_game = new Game()
 
 
     

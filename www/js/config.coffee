@@ -1,2 +1,2 @@
-window.Scenes = {}
-window.Prefabs = {}
+window.Scene = {}
+window.Prefab = {}

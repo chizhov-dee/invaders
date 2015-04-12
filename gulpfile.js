@@ -8,8 +8,10 @@ var paths = {
   scripts: {
     coffee: ["www/js/**/*.coffee"],
     js: [
+      'www/vendors/js/underscore.min.js',
       'www/vendors/js/phaser.js', 
       "www/build/js/config.js",
+      "www/build/js/prefabs/**/*.js",
       "www/build/js/scenes/main.js", 
       "www/build/js/game.js"
     ]
