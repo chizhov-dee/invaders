@@ -1,1 +1,2 @@
 window.Scenes = {}
+window.Prefabs = {}

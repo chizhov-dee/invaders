@@ -3,7 +3,6 @@ var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
-var order = require("gulp-order");
 
 var paths = {
   scripts: {
