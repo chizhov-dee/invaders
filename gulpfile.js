@@ -1,3 +1,5 @@
+// install npm install --save-dev gulp gulp-coffee gulp-concat gulp-sourcemaps gulp-util
+
 var gulp = require('gulp');
 var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
@@ -9,10 +11,10 @@ var paths = {
     coffee: ["www/js/**/*.coffee"],
     js: [
       'www/vendors/js/underscore.min.js',
-      'www/vendors/js/phaser.js', 
+      'www/vendors/js/phaser.js',
       "www/build/js/config.js",
       "www/build/js/prefabs/**/*.js",
-      "www/build/js/scenes/main.js", 
+      "www/build/js/scenes/main.js",
       "www/build/js/game.js"
     ]
   }
