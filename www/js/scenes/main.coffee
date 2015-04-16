@@ -35,10 +35,18 @@ class Scene.Main extends Phaser.State
 
     @game.world.add(@soldier)
 
-    @game.camera.follow(@soldier)
+    #@game.input.addPointer()
 
-    
+    @dispayController = new Controller.DisplayController(@game)
+    new Controller.TestController(@game)
+
   
-
   update: ->
+    @dispayController.update()
+
+      
+  render: ->
+    # для дебага
+
+    @dispayController.render()
     

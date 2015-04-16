@@ -15,6 +15,8 @@ var paths = {
       "www/build/js/config.js",
       "www/build/js/prefabs/**/*.js",
       "www/build/js/scenes/main.js",
+      "www/build/js/display_controller.js",
+      "www/build/js/test_controller.js",
       "www/build/js/game.js"
     ]
   }
