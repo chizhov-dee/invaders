@@ -12,6 +12,16 @@ class Scene.Main extends Phaser.State
         # назначаем физику
     @physics.startSystem(Phaser.Physics.ARCADE)
 
+    @.addMap()
+
+
+    @soldier = new Prefab.Soldier(@game, 'revo', 'green')
+
+    @soldier.reset(100, 100)
+
+    @game.add.existing(@soldier)
+
+  addMap: ->
     # добавляем тайловую карту
     map = @game.add.tilemap('main')
 
@@ -22,20 +32,7 @@ class Scene.Main extends Phaser.State
     @layer = map.createLayer('Bounds')
 
     @layer.resizeWorld()
-
-    @soldier = new Prefab.Soldier(@game, 'soldiers', 'soldier_green_revo.png')
-
-    @soldier.reset(100, 100)
-
-    @physics.enable(@soldier, Phaser.Physics.ARCADE)
-
-    @soldier.anchor.setTo(0.5, 0.5)
-
-    @soldier.blendMode = PIXI.blendModes.NEAREST
-
-    @soldier.tint = 0xF0F0F0
-
-    @game.add.existing(@soldier)
+       
   
   update: ->
     
@@ -43,5 +40,7 @@ class Scene.Main extends Phaser.State
       
   render: ->
     # для дебага
+
+    @game.debug.spriteInfo(@soldier, 300, 32);
 
     
