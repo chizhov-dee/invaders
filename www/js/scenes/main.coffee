@@ -7,6 +7,8 @@ class Scene.Main extends Phaser.State
   
 
   create: ->
+    @game.plugins.add(new Controller.CameraController(@game))
+
         # назначаем физику
     @physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -21,7 +23,7 @@ class Scene.Main extends Phaser.State
 
     @layer.resizeWorld()
 
-    @soldier = new Prefab.Soldier(@game, 'soldiers', 'soldier.png')
+    @soldier = new Prefab.Soldier(@game, 'soldiers', 'soldier_green_revo.png')
 
     @soldier.reset(100, 100)
 
@@ -33,20 +35,13 @@ class Scene.Main extends Phaser.State
 
     @soldier.tint = 0xF0F0F0
 
-    @game.world.add(@soldier)
-
-    #@game.input.addPointer()
-
-    @dispayController = new Controller.DisplayController(@game)
-    new Controller.TestController(@game)
-
+    @game.add.existing(@soldier)
   
   update: ->
-    @dispayController.update()
+    
 
       
   render: ->
     # для дебага
 
-    @dispayController.render()
     
