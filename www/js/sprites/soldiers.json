@@ -1,40 +1,20 @@
 {
 "frames": {
-	"soldier_blue_ak.png": {
-		"frame": {"x":28, "y":0, "w":27, "h":39},
-		"spriteSourceSize": {"x":11,"y":5,"w":50,"h":50},
+	"soldier_ak.png": {
+		"frame": {"x":0, "y":0, "w":39, "h":27},
+		"spriteSourceSize": {"x":6,"y":11,"w":50,"h":50},
 		"sourceSize": {"w":50,"h":50}
 	},
-	"soldier_blue_revo.png": {
-		"frame": {"x":56, "y":0, "w":27, "h":31},
-		"spriteSourceSize": {"x":11,"y":13,"w":50,"h":50},
-		"sourceSize": {"w":50,"h":50}
-	},
-	"soldier_gray_ak.png": {
-		"frame": {"x":28, "y":40, "w":27, "h":39},
-		"spriteSourceSize": {"x":11,"y":5,"w":50,"h":50},
-		"sourceSize": {"w":50,"h":50}
-	},
-	"soldier_gray_revo.png": {
-		"frame": {"x":56, "y":32, "w":27, "h":31},
-		"spriteSourceSize": {"x":11,"y":13,"w":50,"h":50},
-		"sourceSize": {"w":50,"h":50}
-	},
-	"soldier_green_ak.png": {
-		"frame": {"x":0, "y":32, "w":27, "h":39},
-		"spriteSourceSize": {"x":11,"y":5,"w":50,"h":50},
-		"sourceSize": {"w":50,"h":50}
-	},
-	"soldier_green_revo.png": {
-		"frame": {"x":0, "y":0, "w":27, "h":31},
-		"spriteSourceSize": {"x":11,"y":13,"w":50,"h":50},
+	"soldier_revolver.png": {
+		"frame": {"x":0, "y":28, "w":31, "h":27},
+		"spriteSourceSize": {"x":6,"y":11,"w":50,"h":50},
 		"sourceSize": {"w":50,"h":50}
 	}
 
 },
 "meta": {
 	"image": "soldiers.png",
-	"size": {"w": 84, "h": 80},
+	"size": {"w": 40, "h": 56},
 	"scale": "1"
 }
 }

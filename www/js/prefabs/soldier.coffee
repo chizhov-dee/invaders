@@ -1,42 +1,43 @@
 class Prefab.Soldier extends Phaser.Sprite
-  colors: []
+  defaultTint: null
+  isEnemy: false # свой или враг
 
-  constructor: (game, weapon, color)->
-    super(game, 0, 0, 'soldiers', "soldier_#{color}_#{weapon}.png")
+  colors: 
+    gray: 0xA4A4A4
+    green: 0x688A08
+    black: 0x1C1C1C
+    blue: 0x58ACFA
+    brown: 0xD2BF4E
 
-    @blendMode = 1
-
-    #@soldier.tint = 0x848484
-
-    @game.physics.enable(@, Phaser.Physics.ARCADE)
+  constructor: (game, weapon_type, color, isEnemy)->
+    super(game, 0, 0, 'soldiers', "soldier_#{ weapon_type }.png")
 
     @anchor.setTo(0.5, 0.5)
 
-    @inputEnabled = true
+    @defaultTint = @colors[color]
 
-    @events.onInputUp.add(@.onInputUp, @)
+    @tint = @defaultTint
 
-    @pointer = null
+    @game.physics.enable(@, Phaser.Physics.ARCADE)
 
-    @selected = false
+    @body.collideWorldBounds = true
 
-    @targetPointer = new Phaser.Pointer(0, 0)
+    @isEnemy = isEnemy if isEnemy?
 
-  onInputUp: (e)->
-    @selected = true
+    unless @isEnemy
+      @unitController = new Controller.UnitController(@)
 
-    #console.log @pointer = new Phaser.Pointer(@game, 1)
+      @inputEnabled = true
 
   update: ->
-    if @selected && @game.input.mousePointer.isDown
-      console.log @targetPointer.x = @game.input.activePointer.x
-      console.log @targetPointer.y = @game.input.activePointer.y
-      
-      @selected = false
+    super
 
-      @rotation = @game.physics.arcade.moveToXY(@, @targetPointer.x, @targetPointer.y)
+    @unitController?.update()
 
-      
-    if Math.round(@game.physics.arcade.distanceToXY(@, @targetPointer.x, @targetPointer.y)) == 0
-      @body.velocity.x = 0
-      @body.velocity.y = 0
+
+  postUpdate: ->
+    super
+
+    @unitController?.postUpdate()
+
+#Phaser.Utils.mixinPrototype(Prefab.Soldier.prototype, Controller.UnitController.prototype)    

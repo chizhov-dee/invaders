@@ -7,19 +7,24 @@ class Scene.Main extends Phaser.State
   
 
   create: ->
-    @game.plugins.add(new Controller.CameraController(@game))
-
+    @cameraController = new Controller.CameraController(@game)
         # назначаем физику
     @physics.startSystem(Phaser.Physics.ARCADE)
 
     @.addMap()
 
 
-    @soldier = new Prefab.Soldier(@game, 'revo', 'green')
+    @soldier = new Prefab.Soldier(@game, 'revolver', 'brown')
 
     @soldier.reset(100, 100)
 
     @game.add.existing(@soldier)
+
+    @soldier1 = new Prefab.Soldier(@game, 'ak', 'green', true)
+
+    @soldier1.reset(200, 200)
+
+    @game.add.existing(@soldier1)
 
   addMap: ->
     # добавляем тайловую карту
@@ -35,12 +40,14 @@ class Scene.Main extends Phaser.State
        
   
   update: ->
+    @cameraController.update()
     
 
       
   render: ->
+    @cameraController.render()
     # для дебага
 
-    @game.debug.spriteInfo(@soldier, 300, 32);
+    #@game.debug.spriteInfo(@soldier, 300, 32);
 
     
