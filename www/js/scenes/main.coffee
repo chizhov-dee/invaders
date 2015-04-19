@@ -20,7 +20,7 @@ class Scene.Main extends Phaser.State
 
     @game.add.existing(@soldier)
 
-    @soldier1 = new Prefab.Soldier(@game, 'ak', 'green', true)
+    @soldier1 = new Prefab.Soldier(@game, 'ak', 'green')
 
     @soldier1.reset(200, 200)
 
