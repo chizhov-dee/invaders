@@ -9,10 +9,11 @@ class Prefab.Soldier extends Phaser.Sprite
     blue: 0x58ACFA
     brown: 0xD2BF4E
 
-  constructor: (game, weapon_type, color, isEnemy)->
+  constructor: (@map, game, weapon_type, color, isEnemy)->
     super(game, 0, 0, 'soldiers', "soldier_#{ weapon_type }.png")
 
     @anchor.setTo(0.5, 0.5)
+    @pivot = new Phaser.Point(-5, 0)
 
     @defaultTint = @colors[color]
 

@@ -1,4 +1,6 @@
 class Scene.Main extends Phaser.State
+  map: null
+
   preload: ->
     # maps data load
     @game.load.tilemap('main', 'maps/main.json', null, Phaser.Tilemap.TILED_JSON)  
@@ -14,33 +16,41 @@ class Scene.Main extends Phaser.State
     @.addMap()
 
 
-    @soldier = new Prefab.Soldier(@game, 'revolver', 'brown')
+    @soldier = new Prefab.Soldier(@map, @game, 'revolver', 'brown')
 
     @soldier.reset(100, 100)
 
     @game.add.existing(@soldier)
 
-    @soldier1 = new Prefab.Soldier(@game, 'ak', 'green')
+    # @soldier1 = new Prefab.Soldier(@game, 'ak', 'green')
 
-    @soldier1.reset(200, 200)
+    # @soldier1.reset(200, 200)
 
-    @game.add.existing(@soldier1)
+    # @game.add.existing(@soldier1)
 
   addMap: ->
     # добавляем тайловую карту
-    map = @game.add.tilemap('main')
+    @map = @game.add.tilemap('main')
 
-    map.addTilesetImage('gridtiles', 'tiles')
+    @map.addTilesetImage('gridtiles', 'tiles')
 
-    map.setCollisionByExclusion([]) # назначаем колизион на все тайлы
+    @layer = @map.createLayer('Bounds')
 
-    @layer = map.createLayer('Bounds')
+    @map.setCollisionByExclusion([113]) # назначаем колизион на все тайлы
 
     @layer.resizeWorld()
+
+    console.log @map.collision
+
+    
        
   
   update: ->
     @cameraController.update()
+
+    @game.physics.arcade.collide(@soldier, @layer)
+
+    
     
 
       
