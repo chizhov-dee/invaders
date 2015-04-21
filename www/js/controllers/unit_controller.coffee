@@ -13,18 +13,31 @@ class Controller.UnitController
   #   x: [50, 100, 350, 450, 100]
   #   y: [50, 100, 210, 305, 200]
 
-  # pi: 0
-  # path: []  
+  pathIndex: 0
+  path: []  
   
   # @gameObject это игровой объект над которым выполняется управление
   constructor: (@gameObject)->
-    @targetGraphicPath = new Phaser.Graphics(@gameObject.game, @gameObject.position.x, @gameObject.position.y)
+    # @targetGraphicPath = new Phaser.Rope(
+    #   @gameObject.game,
+    #   100,
+    #   200,
+    #   PIXI.TextureCache['green_path'],
+    #   null,
+    #   [new Phaser.Point(0, 0), new Phaser.Point(200, 0)]
+    # )
 
-     
+    # @gameObject.game.add.existing(@targetGraphicPath)
+
 
     #@gameObject.game.physics.enable(@targetGraphicPath, Phaser.Physics.ARCADE)
 
-    @gameObject.game.add.existing(@targetGraphicPath) 
+    # @gameObject.game.add.rope(
+    #   100,
+    #   200,
+    #   'point',
+    #   null,
+    #   []) 
 
     #@pathPointManager = new Prefab.PathPointManager(@gameObject.game, @gameObject.game.world, 'PathPointManager', false)
 
@@ -35,7 +48,9 @@ class Controller.UnitController
 
     #@path = @.generatePath(@points)
 
-  generatePathByPoints: (points)->
+    @cursors = @gameObject.game.input.keyboard.createCursorKeys()
+
+  generatePath: (points)->
     path = []
     speed = 1
 
@@ -50,29 +65,31 @@ class Controller.UnitController
         py = @gameObject.game.math.linearInterpolation([points.y[p - 1], points.y[p]], i)  
 
         path.push(x: px, y: py)  
-        @gameObject.game.bmd.rect(px, py, 1, 1, 'rgba(255, 255, 255, 1)')
 
         i += x
 
     path    
+
+  resetPath: ->
+    @path = [] 
+    @pathIndex = 0
+      
 
   setupEventListeners: ->  
     @gameObject.events.onInputUp.add(@.onInputUp, @)
 
   onInputUp: ->
     console.log 'onInputUp'
+
     if @selected
       @selected = false
       @gameObject.tint = @gameObject.defaultTint  
     else
+      @.resetPath()
+
       @selected = true
-      @gameObject.tint = @colors.selected  
+      @gameObject.tint = @colors.selected
 
-
-  onInputDown: ->
-    return unless @selected
-
-    console.log 'onInputDown'
   
 
 
@@ -93,14 +110,48 @@ class Controller.UnitController
 
   update: ->  
 
-    # return if @pi >= @path.length
+    console.log @gameObject.body.velocity.x
+    console.log @gameObject.body.velocity.y
 
-    # @gameObject.rotation = @gameObject.game.math.angleBetween(@gameObject.x, @gameObject.y, @path[@pi].x, @path[@pi].y)
+    @gameObject.body.velocity.x = 0
+    @gameObject.body.velocity.y = 0
+    @gameObject.body.angularVelocity = 0
 
-    # @gameObject.x = @path[@pi].x
-    # @gameObject.y = @.path[@pi].y
+    if @selected && @gameObject.game.input.mousePointer.isDown
+      @selected = false
+      @gameObject.tint = @gameObject.defaultTint
 
-    # @pi += 1
+      @path = @.generatePath(
+        x: [@gameObject.x, @gameObject.game.input.activePointer.worldX]
+        y: [@gameObject.y, @gameObject.game.input.activePointer.worldY]
+      )
+
+    if @path.length > 0 && @pathIndex < @path.length
+      if @pathIndex != 0
+        #@gameObject.rotation = @gameObject.game.math.angleBetween(@gameObject.x, @gameObject.y, @path[@pathIndex].x, @path[@pathIndex].y)
+
+        @gameObject.rotation = @gameObject.game.physics.arcade.angleToXY(@gameObject, @path[@pathIndex].x, @path[@pathIndex].y)
+        # @gameObject.x = @path[@pathIndex].x
+        # @gameObject.y = @.path[@pathIndex].y
+
+      @gameObject.game.physics.arcade.moveToXY(@gameObject, @path[@pathIndex].x, @path[@pathIndex].y, 50)
+
+      @pathIndex += 1
+
+      @.resetPath() if @pathIndex >= @path.length 
+
+    # @gameObject.body.velocity.x = 0
+    # @gameObject.body.velocity.y = 0
+    # @gameObject.body.angularVelocity = 0
+
+    # if @cursors.left.isDown
+    #   @gameObject.body.angularVelocity = -200
+    # else if @cursors.right.isDown
+    #   @gameObject.body.angularVelocity = 200
+
+    # if @cursors.up.isDown
+    #   @gameObject.game.physics.arcade.velocityFromAngle(@gameObject.angle, 150, @gameObject.body.velocity)
+     
 
 
 
@@ -127,18 +178,18 @@ class Controller.UnitController
     #   @gameObject.body.velocity.y = 0
 
 
-  postUpdate: ->
-    @targetGraphicPath.clear()
+  #postUpdate: ->
+    # @targetGraphicPath.clear()
 
-    if @selected
-      if @gameObject.map.getTileWorldXY(@gameObject.game.input.mousePointer.worldX, @gameObject.game.input.mousePointer.worldY)?.canCollide
-        color = 0xFF0000
-      else
-        color = 0x40FF00
+    # if @selected
+    #   if @gameObject.map.getTileWorldXY(@gameObject.game.input.mousePointer.worldX, @gameObject.game.input.mousePointer.worldY)?.canCollide
+    #     color = 0xFF0000
+    #   else
+    #     color = 0x40FF00
 
-      @targetGraphicPath.lineStyle(1, color)
-      @targetGraphicPath.moveTo(@gameObject.position.x, @gameObject.position.y)
-      @targetGraphicPath.lineTo(@gameObject.game.input.mousePointer.worldX, @gameObject.game.input.mousePointer.worldY)  
+    #   @targetGraphicPath.lineStyle(1, color)
+    #   @targetGraphicPath.moveTo(@gameObject.position.x, @gameObject.position.y)
+    #   @targetGraphicPath.lineTo(@gameObject.game.input.mousePointer.worldX, @gameObject.game.input.mousePointer.worldY)  
         
 
     # if @targetPoint? && Math.round(@.distanceBetween()) != 0

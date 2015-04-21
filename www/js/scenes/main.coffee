@@ -5,6 +5,14 @@ class Scene.Main extends Phaser.State
     # maps data load
     @game.load.tilemap('main', 'maps/main.json', null, Phaser.Tilemap.TILED_JSON)  
     @game.load.image('tiles', 'img/gridtiles.png')
+    
+
+    # @game.load.image('green_path', 'img/green_path.png')
+    # @game.load.image('red_path', 'img/red_path.png')
+    # @game.load.image('blue_path', 'img/blue_path.png')
+
+    # @game.load.image('point', 'img/point.png')
+
     @game.load.atlasJSONHash('soldiers', 'img/soldiers.png', 'js/sprites/soldiers.json')
   
 
@@ -16,17 +24,24 @@ class Scene.Main extends Phaser.State
     @.addMap()
 
 
-    @soldier = new Prefab.Soldier(@map, @game, 'revolver', 'brown')
+    @soldier = new Prefab.Soldier(@game, 'revolver', 'brown')
 
     @soldier.reset(100, 100)
 
+
+
     @game.add.existing(@soldier)
 
-    # @soldier1 = new Prefab.Soldier(@game, 'ak', 'green')
+    @physics.enable(@soldier, Phaser.Physics.ARCADE)
 
-    # @soldier1.reset(200, 200)
+    # @soldiers = new Prefab.Soldiers(@game, @game.world, 'Soldiers', false, true, Phaser.Physics.ARCADE)
 
-    # @game.add.existing(@soldier1)
+    # @soldiers.createSoldier()
+
+    @cursors = @game.input.keyboard.createCursorKeys()
+
+    #@unitController = new Controller.UnitController(@soldier)
+
 
   addMap: ->
     # добавляем тайловую карту
@@ -34,22 +49,32 @@ class Scene.Main extends Phaser.State
 
     @map.addTilesetImage('gridtiles', 'tiles')
 
-    @layer = @map.createLayer('Bounds')
+    @layer = @map.createLayer('World')
 
-    @map.setCollisionByExclusion([113]) # назначаем колизион на все тайлы
+    @map.setCollisionByExclusion([]) # назначаем колизион на все тайлы
 
     @layer.resizeWorld()
-
-    console.log @map.collision
-
-    
-       
-  
+      
   update: ->
     @cameraController.update()
 
-    @game.physics.arcade.collide(@soldier, @layer)
+    #
 
+    @game.physics.arcade.collide(@soldier, @layer, ()=> console.log 'collide')
+
+    #@unitController.update()
+
+    # @soldier.body.velocity.x = 0
+    # @soldier.body.velocity.y = 0
+    # @soldier.body.angularVelocity = 0
+
+    # if @cursors.left.isDown
+    #   @soldier.body.angularVelocity = -200
+    # else if @cursors.right.isDown
+    #   @soldier.body.angularVelocity = 200
+
+    # if @cursors.up.isDown
+    #   @game.physics.arcade.velocityFromAngle(@soldier.angle, 150, @soldier.body.velocity)
     
     
 
@@ -58,6 +83,6 @@ class Scene.Main extends Phaser.State
     @cameraController.render()
     # для дебага
 
-    #@game.debug.spriteInfo(@soldier, 300, 32);
+    @game.debug.body(@soldier)
 
     

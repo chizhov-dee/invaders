@@ -19,6 +19,7 @@ var paths = {
       "www/build/js/prefabs/weapon.js",
       "www/build/js/prefabs/army.js",
       "www/build/js/prefabs/soldier.js",
+      "www/build/js/prefabs/soldiers.js",
       "www/build/js/scenes/main.js",
       "www/build/js/game.js"
     ]

@@ -9,7 +9,7 @@ class Prefab.Soldier extends Phaser.Sprite
     blue: 0x58ACFA
     brown: 0xD2BF4E
 
-  constructor: (@map, game, weapon_type, color, isEnemy)->
+  constructor: (game, weapon_type, color, isEnemy)->
     super(game, 0, 0, 'soldiers', "soldier_#{ weapon_type }.png")
 
     @anchor.setTo(0.5, 0.5)
@@ -25,20 +25,23 @@ class Prefab.Soldier extends Phaser.Sprite
 
     @isEnemy = isEnemy if isEnemy?
 
+    @inputEnabled = true
+
     unless @isEnemy
       @unitController = new Controller.UnitController(@)
 
       @inputEnabled = true
 
   update: ->
-    super
 
     @unitController?.update()
+   
 
+  #postUpdate: ->
+    
+    
+    
 
-  postUpdate: ->
-    super
-
-    @unitController?.postUpdate()
+    #@unitController?.postUpdate()
 
 #Phaser.Utils.mixinPrototype(Prefab.Soldier.prototype, Controller.UnitController.prototype)    
