@@ -5,6 +5,7 @@ class Scene.Main extends Phaser.State
     # maps data load
     @game.load.tilemap('main', 'maps/main.json', null, Phaser.Tilemap.TILED_JSON)  
     @game.load.image('tiles', 'img/gridtiles.png')
+    @game.load.image('point_32', 'img/point_32.png')
     
 
     # @game.load.image('green_path', 'img/green_path.png')
@@ -49,18 +50,25 @@ class Scene.Main extends Phaser.State
 
     @map.addTilesetImage('gridtiles', 'tiles')
 
-    @layer = @map.createLayer('World')
+    @ground = @map.createLayer('Ground')
 
-    @map.setCollisionByExclusion([]) # назначаем колизион на все тайлы
+    #@map.setCollisionByExclusion([]) # назначаем колизион на все тайлы
+    @walls = @map.createLayer('Walls')
 
-    @layer.resizeWorld()
+    @point_manager = new Prefab.PointManager(@game, @game.world, 'PointManager')
+
+    @points_layer = @map.createFromObjects('Points', 123, 'point_32', null, true, false, @point_manager)
+
+    @point_manager.setCustom()
+
+    @ground.resizeWorld()
       
   update: ->
     @cameraController.update()
 
     #
 
-    @game.physics.arcade.collide(@soldier, @layer, ()=> console.log 'collide')
+    #@game.physics.arcade.collide(@soldier, @layer, ()=> console.log 'collide')
 
     #@unitController.update()
 
@@ -83,6 +91,6 @@ class Scene.Main extends Phaser.State
     @cameraController.render()
     # для дебага
 
-    @game.debug.body(@soldier)
+   # @game.debug.body(@soldier)
 
     

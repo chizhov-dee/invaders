@@ -110,9 +110,6 @@ class Controller.UnitController
 
   update: ->  
 
-    console.log @gameObject.body.velocity.x
-    console.log @gameObject.body.velocity.y
-
     @gameObject.body.velocity.x = 0
     @gameObject.body.velocity.y = 0
     @gameObject.body.angularVelocity = 0
