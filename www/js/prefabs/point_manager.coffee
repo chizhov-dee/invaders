@@ -4,18 +4,26 @@ class Prefab.PointManager extends Phaser.Group
 
   setCustom: ->
     @.setAll('anchor', new Phaser.Point(0.5, 0.5))
-    @.setAll('inputEnabled', true)
+    #@.setAll('scale', new Phaser.Point(0.5, 0.5))
 
-    @.forEach(@.setEvents, @)
+    @.setAll('alpha', 0.2)
 
-  setEvents: (point)->  
-    point.events.onInputUp.add(@.onInputUp, @)
+  #   @.forEach(@.setEvents, @)
 
-  onInputUp: (point)->
-    console.log point.alpha
-    if point.selected
-      point.selected = false
-      point.tint = 0xffffff
-    else
-      point.selected = true
-      point.tint = @colors.selected
+  # setEvents: (point)->  
+  #   point.events.onInputUp.add(@.onInputUp, @)
+
+  # onInputUp: (point)->
+  #   console.log point.alpha
+  #   if point.selected
+  #     point.selected = false
+  #     point.tint = 0xffffff
+  #   else
+  #     point.selected = true
+  #     point.tint = @colors.selected
+
+  addPoints: (points)->
+    for point in points
+      @.add(new Phaser.Sprite(@game, (point.x || 0) + 16, (point.y || 0) + 16, 'point1_32'))
+
+    @.setCustom()  

@@ -27,14 +27,14 @@ class Prefab.Soldier extends Phaser.Sprite
 
     @inputEnabled = true
 
-    # unless @isEnemy
-    #   @unitController = new Controller.UnitController(@)
+  #   unless @isEnemy
+  #     @unitController = new Controller.UnitController(@)
 
-    #   @inputEnabled = true
+  #     @inputEnabled = true
 
-  update: ->
+  # update: ->
 
-    #@unitController?.update()
+  #   @unitController?.update()
    
 
   #postUpdate: ->

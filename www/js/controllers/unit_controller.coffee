@@ -110,10 +110,6 @@ class Controller.UnitController
 
   update: ->  
 
-    @gameObject.body.velocity.x = 0
-    @gameObject.body.velocity.y = 0
-    @gameObject.body.angularVelocity = 0
-
     if @selected && @gameObject.game.input.mousePointer.isDown
       @selected = false
       @gameObject.tint = @gameObject.defaultTint
@@ -125,30 +121,17 @@ class Controller.UnitController
 
     if @path.length > 0 && @pathIndex < @path.length
       if @pathIndex != 0
-        #@gameObject.rotation = @gameObject.game.math.angleBetween(@gameObject.x, @gameObject.y, @path[@pathIndex].x, @path[@pathIndex].y)
+        @gameObject.rotation = @gameObject.game.math.angleBetween(@gameObject.x, @gameObject.y, @path[@pathIndex].x, @path[@pathIndex].y)
 
-        @gameObject.rotation = @gameObject.game.physics.arcade.angleToXY(@gameObject, @path[@pathIndex].x, @path[@pathIndex].y)
-        # @gameObject.x = @path[@pathIndex].x
-        # @gameObject.y = @.path[@pathIndex].y
-
-      @gameObject.game.physics.arcade.moveToXY(@gameObject, @path[@pathIndex].x, @path[@pathIndex].y, 50)
+        
+        @gameObject.x = @path[@pathIndex].x
+        @gameObject.y = @.path[@pathIndex].y
 
       @pathIndex += 1
 
       @.resetPath() if @pathIndex >= @path.length 
 
-    # @gameObject.body.velocity.x = 0
-    # @gameObject.body.velocity.y = 0
-    # @gameObject.body.angularVelocity = 0
 
-    # if @cursors.left.isDown
-    #   @gameObject.body.angularVelocity = -200
-    # else if @cursors.right.isDown
-    #   @gameObject.body.angularVelocity = 200
-
-    # if @cursors.up.isDown
-    #   @gameObject.game.physics.arcade.velocityFromAngle(@gameObject.angle, 150, @gameObject.body.velocity)
-     
 
 
 
