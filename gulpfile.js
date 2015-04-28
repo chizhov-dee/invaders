@@ -14,7 +14,7 @@ var paths = {
       'www/vendors/js/phaser.js',
       "www/build/js/config.js",
       "www/build/js/controllers/**/*.js",
-      "www/build/js/prefabs/point_manager.js",
+      "www/build/js/prefabs/path_point_manager.js",
       "www/build/js/prefabs/bullet.js",
       "www/build/js/prefabs/weapon.js",
       "www/build/js/prefabs/army.js",
