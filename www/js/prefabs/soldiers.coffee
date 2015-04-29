@@ -6,26 +6,27 @@ class Prefab.Soldiers extends Phaser.Group
     super(game, game.world, 'Soldiers', false, true, Phaser.Physics.ARCADE)
   
   addSoldier: (x, y)->
-    soldier = new Prefab.Soldier(@game, 'revolver', 'brown')
+    unit = new Prefab.Soldier(@game, 'revolver', 'brown')
 
-    soldier.inputEnabled = true
+    unit.inputEnabled = true
 
-    soldier.events.onInputUp.add(@.onInputUp, @)
+    unit.events.onInputUp.add(@.onInputUp, @)
 
-    @.add(soldier)
+    @.add(unit)
 
-    soldier.reset(x, y)
+    unit.reset(x, y)
 
-    @pathPointManager.addUnitByWorldXY(soldier, x, y)
+    @pathPointManager.addUnitByWorldXY(unit, x, y)
 
   onInputUp: (unit)->
+    console.log [unit.snapX, unit.snapY]
     @pathPointManager.deactivateAllPoints()
 
     if unit.selected
       @.deselectUnit(unit)
     else
       @.deselectAllUnits()
-      
+
       @.selectUnit(unit)
 
       @pathPointManager.activatePointsBy(unit)

@@ -30,7 +30,7 @@ class Scene.Main extends Phaser.State
 
     @soldiers.addSoldier(48, 48)
 
-    @soldiers.addSoldier(112, 112)
+    @soldiers.addSoldier(176, 400)
 
 
 
