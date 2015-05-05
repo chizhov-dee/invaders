@@ -37,6 +37,15 @@ class Prefab.PathPointManager extends Phaser.Group
 
   setEvents: (point)->  
     point.events.onInputDown.add(@.onInputDown, @)
+    point.events.onInputOver.add(@.onInputOver, @)
+    point.events.onInputOut.add(@.onInputOut, @)
+
+  onInputOut: (point)->
+    point.alpha = 0.5  
+
+  onInputOver: (point)->
+    point.alpha = 0.8
+      
 
   onInputDown: (point)->
     return unless @selectedUnit
@@ -45,6 +54,7 @@ class Prefab.PathPointManager extends Phaser.Group
 
     for p in @activePoints
       p.alpha = 0
+      p.inputEnabled = false
 
     path = @.generatePath(point)
 
@@ -52,6 +62,8 @@ class Prefab.PathPointManager extends Phaser.Group
 
     for p in path
       p.alpha = 0.5
+
+    @selectedUnit.events.onMoveByPath.dispatch(@selectedUnit, _.map(path, (p)-> [p.x, p.y]))  
 
   generatePath: (point)->
     path = []
@@ -91,15 +103,31 @@ class Prefab.PathPointManager extends Phaser.Group
 
         pool.push(point) if point?
 
-      firstSortedPoints = _.sortBy(
-        _.pairs(_.groupBy(pool, (p)=> @game.math.distance(endX, endY, p.snapX, p.snapY)))
-        (p)-> parseFloat(p[0])
-      )[0]
+      # console.log firstSortedPoints = _.sortBy(
+      #   _.pairs(_.groupBy(pool, (p)=> @game.math.distance(endX, endY, p.snapX, p.snapY)))
+      #   (p)-> parseFloat(p[0])
+      # )[0][1]
 
-      if firstSortedPoints[1].length > 1
-        # выбрать здесь
-      else
-        firstSortedPoints[1][0]
+
+
+      # if firstSortedPoints.length > 1
+      #   if (endX < x && endY < y) || (endX > x && endY > y)
+      #     _.sortBy(firstSortedPoints, (p)-> p.snapY).reverse()[0]
+      #   else  
+      #     _.sortBy(firstSortedPoints, (p)-> p.snapX))[0]
+      #   # выбрать здесь
+      #   # if end
+      #   #   _.sortBy(firstSortedPoints, (p)-> p.snapX).reverse()[0]
+      #   # else
+      #   #   _.sortBy(firstSortedPoints, (p)-> p.snapX)[0]
+
+      # else
+      #   firstSortedPoints[0]
+
+      # if (endX < x && endY < y) || (endX > x && endY > y)
+      #   _.sortBy(pool, (p)-> p.snapY).reverse()[0]
+      # else  
+      #   _.sortBy(pool, (p)-> p.snapX)[0] 
       
 
       _.sortBy(pool, (p)=> @game.math.distance(endX, endY, p.snapX, p.snapY))[0]

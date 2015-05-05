@@ -10,7 +10,7 @@ class Prefab.Soldier extends Phaser.Sprite
 
   snapX: null
   snapY: null 
-  pointStep: 7
+  pointStep: 5
 
   constructor: (game, weapon_type, color, isEnemy)->
     super(game, 0, 0, 'soldiers', "soldier_#{ weapon_type }.png")
