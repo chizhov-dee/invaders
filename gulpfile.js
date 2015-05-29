@@ -25,7 +25,7 @@ var paths = {
   js: './app/js/app.coffee',
   lint: './app/js/*.coffee',
   watch: './app/js/*.coffee',
-  vendor: ['./vendor/js/phaser.min.js'],
+  vendor: ['./vendor/js/underscore-min.js', './vendor/js/phaser.min.js'],
 
   deploy: './dist/**/*'
 };

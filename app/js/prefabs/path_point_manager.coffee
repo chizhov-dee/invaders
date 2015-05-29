@@ -1,4 +1,4 @@
-class Prefab.PathPointManager extends Phaser.Group
+class PathPointManager extends Phaser.Group
   pointSize: 32
   pointOffset: 16
   colors: 
@@ -18,7 +18,7 @@ class Prefab.PathPointManager extends Phaser.Group
 
   addPoints: (points)->
     for point in points
-      sprite = new Phaser.Sprite(@game, (point.x || 0) + @pointOffset, (point.y || 0) + @pointOffset, 'point1_32')
+      sprite = new Phaser.Sprite(@game, (point.x || 0) + @pointOffset, (point.y || 0) + @pointOffset, 'point_32')
       
       [sprite.snapX, sprite.snapY] = @.getSnapCoordinates(sprite)
 
@@ -270,6 +270,6 @@ class Prefab.PathPointManager extends Phaser.Group
         
       
 
-
+module.exports = PathPointManager
       
     

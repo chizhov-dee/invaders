@@ -1,4 +1,4 @@
-class Controller.CameraController
+class CameraController
   lastMousePoint: null
 
   constructor: (@game)-> 
@@ -18,3 +18,6 @@ class Controller.CameraController
       
   render: ->
     #@game.debug.cameraInfo(@game.camera, 0, 0)  
+
+
+module.exports = CameraController 

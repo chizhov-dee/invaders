@@ -1,4 +1,6 @@
-class Prefab.Soldiers extends Phaser.Group
+Soldier = require './soldier.coffee'
+
+class Soldiers extends Phaser.Group
   colors:
     selected: 0x40FF00
 
@@ -11,7 +13,7 @@ class Prefab.Soldiers extends Phaser.Group
     super(game, game.world, 'Soldiers', false, true, Phaser.Physics.ARCADE)
   
   addSoldier: (x, y)->
-    unit = new Prefab.Soldier(@game, 'revolver', 'brown')
+    unit = new Soldier(@game, 'revolver', 'brown')
 
     unit.inputEnabled = true
 
@@ -109,7 +111,7 @@ class Prefab.Soldiers extends Phaser.Group
 
 
 
-
+module.exports = Soldiers
 
 
 

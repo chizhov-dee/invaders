@@ -1,4 +1,4 @@
-class Controller.UnitController
+class UnitController
   # перед включение контроллера у игрового объекта нужно установить inputEnabled = true
 
   selected: false
@@ -176,3 +176,5 @@ class Controller.UnitController
     #   @targetGraphicPath.lineStyle(1, 0x40FF00)
     #   @targetGraphicPath.moveTo(@gameObject.position.x, @gameObject.position.y)
     #   @targetGraphicPath.lineTo(@targetPoint.x, @targetPoint.y)  
+
+module.exports = UnitController

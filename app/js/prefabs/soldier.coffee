@@ -1,4 +1,4 @@
-class Prefab.Soldier extends Phaser.Sprite
+class Soldier extends Phaser.Sprite
   defaultTint: null
 
   colors: 
@@ -40,3 +40,5 @@ class Prefab.Soldier extends Phaser.Sprite
     #@unitController?.postUpdate()
 
 #Phaser.Utils.mixinPrototype(Prefab.Soldier.prototype, Controller.UnitController.prototype)    
+
+module.exports = Soldier

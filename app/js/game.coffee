@@ -1,4 +1,12 @@
+# globals libraries
+_ = require 'underscore'
+
 Phaser = require 'Phaser'
+
+CameraController = require('./controllers/camera_controller.coffee')
+PathPointManager = require('./prefabs/path_point_manager.coffee')
+Soldiers = require('./prefabs/soldiers.coffee')
+
 
 class Game extends Phaser.State
   constructor: -> super
@@ -12,11 +20,11 @@ class Game extends Phaser.State
 
     @.addMap()
 
-    @pathPointManager = new Prefab.PathPointManager(@game, @map)
+    @pathPointManager = new PathPointManager(@game, @map)
 
     @pathPointManager.addPoints(@map.objects.PathPoints)
 
-    @soldiers = new Prefab.Soldiers(@game, @pathPointManager)
+    @soldiers = new Soldiers(@game, @pathPointManager)
 
     @soldiers.addSoldier(48, 48)
 
