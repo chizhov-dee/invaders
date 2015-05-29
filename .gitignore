@@ -32,10 +32,10 @@ doc/
 *.sublime-project
 *.sublime-workspace
 .project
+.codeintel
 
 /node_modules
 /platforms
 /plugins
-/www/build
-
-
+/build
+/dist

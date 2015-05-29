@@ -1,52 +1,91 @@
-// install npm install --save-dev gulp gulp-coffee gulp-concat gulp-sourcemaps gulp-util
+// npm install --save-dev gulp gulp-coffeelint gulp-uglify browserify browserify-shim coffeeify del vinyl-buffer vinyl-source-stream gulp-concat gulp-connect
 
-var gulp = require('gulp');
-var coffee = require('gulp-coffee');
+var gulp       = require('gulp');
+var coffeelint = require('gulp-coffeelint');
+var uglify     = require('gulp-uglify');
+
+var browserify = require('browserify');
+var coffeeify  = require('coffeeify');
+var del        = require('del');
+var buffer     = require('vinyl-buffer');
+var vinyl      = require('vinyl-source-stream');
+
 var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var gutil = require('gulp-util');
+var connect = require('gulp-connect');
+
+//var deploy = require('gulp-gh-pages');
 
 var paths = {
-  scripts: {
-    coffee: ["www/js/**/*.coffee"],
-    js: [
-      'www/vendors/js/underscore.min.js',
-      'www/vendors/js/phaser.js',
-      "www/build/js/config.js",
-      "www/build/js/controllers/**/*.js",
-      "www/build/js/prefabs/path_point_manager.js",
-      "www/build/js/prefabs/bullet.js",
-      "www/build/js/prefabs/weapon.js",
-      "www/build/js/prefabs/army.js",
-      "www/build/js/prefabs/soldier.js",
-      "www/build/js/prefabs/soldiers.js",
-      "www/build/js/scenes/main.js",
-      "www/build/js/game.js"
-    ]
-  }
+  assets: [
+    './app/assets/**/*.*',
+    './app/index.html'
+  ],
+  app: './app',
+  dist: './dist',
+  js: './app/js/app.coffee',
+  lint: './app/js/*.coffee',
+  watch: './app/js/*.coffee',
+  vendor: ['./vendor/js/phaser.min.js'],
+
+  deploy: './dist/**/*'
 };
 
-gulp.task('default', function() {
-  // place code for your default task here
+gulp.task('connect', function() {
+  connect.server({
+    root: paths.dist,
+    livereload: false
+  });
 });
 
-gulp.task('process-coffee', function() {
-  return gulp.src(paths.scripts.coffee)
-    .pipe(coffee({ bare: true })).on('error', gutil.log)
-    .pipe(gulp.dest('www/build/js'));
+// не используется
+gulp.task('connect-reload', function(){
+  connect.reload()
 });
 
-gulp.task('scripts', ['process-coffee'], function() {
-  return gulp.src(paths.scripts.js)
-    .pipe(sourcemaps.init())
-    .pipe(concat('index.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('www/js'));
+gulp.task('lint', function() {
+  return gulp.src(paths.lint)
+    .pipe(coffeelint())
+    .pipe(coffeelint.reporter())
+    .pipe(coffeelint.reporter('failOnWarning'));
 });
 
-// Rerun the task when a file changes
+gulp.task('clean', function(cb) {
+    del(paths.dist, cb);
+});
+
+gulp.task('copy-assets', function() {
+  return gulp.src(paths.assets, {base: paths.app})
+    .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('compile-coffee', function() {
+  return browserify(paths.js)
+    .transform(coffeeify)
+    .bundle()
+    .pipe(vinyl('main.js'))
+    .pipe(buffer())
+    //.pipe(uglify())
+    .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('compile-js', ['compile-coffee'], function() {
+  return gulp.src(paths.vendor.concat([paths.dist + "/main.js"]))
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest(paths.dist));
+});
+
+// не используется
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts.coffee, ['scripts']);
+  gulp.watch(paths.watch, ['compile-js']);
 });
 
-gulp.task('default', ['watch', 'scripts']);
+
+gulp.task('default', ['clean'], function() {
+  gulp.start('copy-assets','compile-js');
+});
+
+
+// gulp.task('deploy', function() {
+//     return gulp.src(paths.deploy)
+//         .pipe(deploy());
+// });
