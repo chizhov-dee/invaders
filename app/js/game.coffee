@@ -16,8 +16,6 @@ class Game extends Phaser.State
         # назначаем физику
     @physics.startSystem(Phaser.Physics.ARCADE)
 
-    #@tile_selected = false
-
     @.addMap()
 
     @pathPointManager = new PathPointManager(@game, @map)
@@ -28,9 +26,7 @@ class Game extends Phaser.State
 
     @soldiers.addSoldier(48, 48)
 
-    @soldiers.addSoldier(176, 400)
-
-
+#    @soldiers.addSoldier(176, 400)
 
 
   addMap: ->
@@ -41,13 +37,10 @@ class Game extends Phaser.State
 
     @ground = @map.createLayer('Ground')
 
-    #@map.setCollisionByExclusion([]) # назначаем колизион на все тайлы
     @walls = @map.createLayer('Walls')
 
     @ground.resizeWorld()
 
-
-  
   update: ->
     @cameraController.update()
     

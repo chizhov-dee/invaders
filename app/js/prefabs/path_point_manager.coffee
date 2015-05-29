@@ -52,18 +52,22 @@ class PathPointManager extends Phaser.Group
 
     console.log [point.snapX, point.snapY]
 
+    point.alpha = 0
+    point.inputEnabled = false
+    
     for p in @activePoints
-      p.alpha = 0
-      p.inputEnabled = false
+      p.alpha = 0 
+      p.inputEnabled = false  
 
     path = @.generatePath(point)
 
     @activePoints = []
 
-    for p in path
-      p.alpha = 0.5
-
     @selectedUnit.events.onMoveByPath.dispatch(@selectedUnit, _.map(path, (p)-> [p.x, p.y]))  
+
+    @.addUnitByPoint(@selectedUnit, point)
+
+    @selectedUnit = null
 
   generatePath: (point)->
     path = []
@@ -171,6 +175,8 @@ class PathPointManager extends Phaser.Group
     ]
 
   addUnitByWorldXY: (unit, worldX, worldY)->
+    @.removeUnitFromAnyPoints(unit)
+
     [snapX, snapY] = @.getSnapCoordinates(new Phaser.Point(worldX, worldY))
 
     point = @.findPoint(snapX, snapY)
@@ -179,6 +185,19 @@ class PathPointManager extends Phaser.Group
 
     unit.snapX = snapX
     unit.snapY = snapY
+
+  addUnitByPoint: (unit, point)->
+    @.removeUnitFromAnyPoints(unit)
+
+    point.unit = unit
+
+    unit.snapX = point.snapX
+    unit.snapY = point.snapY
+
+  removeUnitFromAnyPoints: (unit)->
+    point = @.findPoint(unit.snapX, unit.snapY)
+    point.unit = null if point?
+      
 
   findPoint: (snapX, snapY)->
     @points[snapX]?[snapY]    

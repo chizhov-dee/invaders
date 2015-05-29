@@ -29,6 +29,7 @@ class Soldiers extends Phaser.Group
     @pathPointManager.addUnitByWorldXY(unit, x, y)
 
   onMoveByPath: (unit, points)->
+
     console.log 'onMoveByPath'  
     console.log unit
     console.log points
@@ -107,7 +108,10 @@ class Soldiers extends Phaser.Group
 
       @pathIndex += 1
 
-      @.resetPath() if @pathIndex >= @path.length 
+      if @pathIndex >= @path.length 
+        @.resetPath() 
+
+        @.deselectUnit(@selectedUnit)
 
 
 
