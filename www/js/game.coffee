@@ -11,7 +11,7 @@ class Game
     @.run()
 
   run: ->
-    @phaserGame = new Phaser.Game(640, 640, Phaser.CANVAS, 'game')
+    @phaserGame = new Phaser.Game(640, 712, Phaser.CANVAS, 'game')
 
     @phaserGame.state.add('Main_Scene', Scene.Main, true)
 
